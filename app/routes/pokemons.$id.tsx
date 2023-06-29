@@ -40,7 +40,6 @@ export const action = async ({ request, params }: ActionArgs) => {
     body: JSON.stringify({ userId: userData.user.id }),
   });
 
-  console.log(response);
   if (response.status !== 200) {
     return new Error("something went wrong");
   }

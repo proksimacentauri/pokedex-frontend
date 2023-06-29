@@ -31,15 +31,28 @@ export const action = async ({ request, params }: ActionArgs) => {
   const formData = await request.formData();
   const pokemonId = formData.get("pokemonId");
   const userData = await user.json();
-  console.log(userData);
+  JSON.stringify(userData.user)
 
+  const response = await fetch(`${process.env.CMS_URL}/api/users/likedPokemon/${pokemonId}`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ userId: userData.user.id }),
+  });
+
+  if (response.status !== 200) {
+    return new Error("something went wrong");
+  }
+  
   return json({message: 'You liked a pokemon'})
 };
 
 export default function PokemonList() { 
   const [showNotification, setShowNotification] = useState(false);
   const { pokemonData } = useLoaderData<typeof loader>();
-  const data = useActionData()
+  const data = useActionData();
   const [searchValue, setSearchValue] = useState("");
   const [sortingStrategy, setSortingStrategy] = useState("numberAsc");
 

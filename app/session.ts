@@ -9,7 +9,7 @@ export const sessionStorage = createCookieSessionStorage({
     path: "/",
     sameSite: "none",
     secrets: [process.env.SESSION_SECRET],
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
   },
 });
 
@@ -60,6 +60,3 @@ export async function getUser(request : Request) {
     },
   });
 }
-
-
-  

@@ -11,11 +11,16 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import styles from "./tailwind.css";
+import icon from "./assets/4.png";
 import {  getUser } from "./session";
 import pokeIcon from "./assets/4.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from '@fortawesome/free-solid-svg-icons';
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }, {
+  rel: "icon",
+  href: icon,
+  type: "image/png",
+}];
 
 export const meta: V2_MetaFunction = () => [
   { title: "PokeDex" },
@@ -33,7 +38,6 @@ export default function App() {
   const { user } = useLoaderData<typeof loader>();
   let newNotifications = [];
   if (user) {
-  console.log(user)
     newNotifications = user!.notifications?.filter((notification: INotification) => !notification.acknowledged) || [];
   }  
   return (
@@ -53,10 +57,10 @@ export default function App() {
               <Link style={{position: "relative"}} className="mx-2  self-center"to="/notifications">
                 <FontAwesomeIcon icon={faBell}  style={{ width: 20, height: 20,color: "#ffef85",}} />
                 {newNotifications.length > 0 && (<span
-                  className="text-white text-center bg-red-600 rounded-full"
+                  className="text-white flex justify-center text-center bg-red-600 rounded-full"
                   style={{position: "absolute", width: 15, height: 15, bottom: 0, right: 0}}
                 >
-                  {newNotifications.length}
+                  <p className="m-0 self-center">{newNotifications.length}</p> 
                 </span>)}
               </Link>
               <button
